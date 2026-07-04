@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SILVERBULLET | Germany Combo Engine Pro v2.1.5 [NETFLIX OPTIMIZED]</title>
+    <style>
+        :root { --bg: #0c0c0c; --magenta: #d94fd9; --cyan: #36b3d4; --yellow: #d6d63c; --green: #42d142; --red: #ff3333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Consolas', monospace;}
+        body { background-color: var(--bg); color: var(--white); min-height: 100vh; padding: 25px; overflow-x:hidden;}
+        
+        /* UI Styles */
+        .container { max-width: 980px; margin-bottom: 25px; background:#fff url('data:image/svg+xml;base64,...') center top repeat-y no-repeat;} 
+        .prompt-line { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:16px;}
+        input, select { background:#0a0a0a; border:1px solid #333; color:#d6d63c; padding:4px 8px; outline:none;}
+        button { background:none; border:1px solid var(--cyan); color:var(--cyan); cursor:pointer; transition:.2s;}
+        
+        /* Console */
+        #console-output { white-space: pre-wrap; display:none; padding:25px 25px 25px 0; height:auto; overflow-y:hidden;}
+        .log-bracket{color:var(--yellow);} 
+    </style>
+</head>
+<body>
+
+<div class="container" style="padding-bottom:20px;">
+    <h1 style="font-family:'Impact'; margin-bottom:5px; text-shadow:2px 2px 4px rgba(0,0,0,.8);">SILVERBULLET v2.1.5 [NETFLIX OPTIMIZED]</h1>
+    
+    <!-- Input UI -->
+    <div id="ui-layer" style="background:rgba(255,255,255,0.03); padding:25px; border-radius:6px; box-shadow:inset 0 0 15px #000;">
+        <div class="prompt-line"><span>root@silverbullet:v2.1.5#</span><input type="number" id="amount" value="2000"> [Target Volume]</div>
+        
+        <div class="prompt-line"><select id="domain-select"><option value="random">Random Mix (Global)</option><option value="gmail.com">Gmail.com</option><option value="web.de">Web.de (DE)</option><option value="gmx.de">GMX.de (DE)</option></select></div>
+
+        <div class="prompt-line"><label style="color:var(--cyan)">Format:</label>&nbsp;<select id="format"><option value="email:pass">Email : Pass</option><option value="user:pass">User : Pass</option></select></div>
+        
+        <!-- Buttons -->
+        <button id="generate-btn" style="margin-top:15px; padding:8px 20px;">./initiate_extraction.sh</button>
+    </div>
+
+    <!-- Terminal Output -->
+    <div id="console-output"></div>
+
+    <!-- Result Data -->
+    <textarea id="data-dump" readonly style="width:98%; height:400px; background:#080a0c; color:#42d142; font-family:'Consolas'; padding:15px;"></textarea>
+
+<script>
+// Enhanced Datasets (Realistic patterns for Netflix/PayPal)
+const firsts = ["lukas","leon","finn","paul","jonas","ben","maximilian","anna","mia","emma","hannah","sophia","lena","lea", "felix","tim","julian","niklas","max","moritz","david","elias","louis", "marie","laura","sarah" ,"lara" ,"neele" ,"lisa" , "charlotte" , "clara", 
+                "johanna" , "alexander" ,"michael" ,"christian" ,"stefan" ,"thomas" ,"jan",
+                "kevin", "patrick", "martin", "peter", "frank", "jens", "dirk",
+                "uwe", "dieter", "werner", "klaus", "gunter",
+                "heinz", "manfred", "helmut",
+                "ursula" ,"karin","sabine","monika","petra","renate","susanne"];
+
+const lasts = ["muller","schmidt","schneider","fischer","weber","meyer","wagner" ,"becker" , 
+               "schulz" ,"hoffmann" ,"koch" ,"bauer" ,"richter" ,"klein" ,"wolf" , 
+               "schroder" ,"neumann" ,"schwarz" ,"zimmermann" ,"braun" ,
+               "kruger", "huber", "peters", "lang", "scholz", "moller",
+               "weiss", "jung"]
+
+const DOM = { amount: document.getElementById('amount'), domainSelect: document.getElementById('domain-select'), format: document.getElementById('format'), btnGen: document.getElementById('generate-btn'), console: document.getElementById('console-output'), dataDump: document.getElementById('data-dump') };
+
+function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+// Enhanced Generation Logic for Netflix/PayPal
+async function runSequence(amount, targetDomain) {
+    DOM.console.style.display="block"; 
+    let resultsSet = new Set();
+    
+    // Animation Loop (Simulate fetching blocks)
+    for(let i=0; i<5; i++) {
+        await sleep(300);
+        let ipPart = Math.floor(Math.random()*256).toString().padStart(3,'0');
+        DOM.console.innerHTML += `<span style="color:#888">[*] Fetching block 0x${Math.floor(Math.random()*100)+i}...</span><br>`;
+    }
+
+    while(resultsSet.size < amount) {
+        const f = getRandom(firsts); 
+        const l = getRandom(lasts); 
+        
+        // Pattern 1: Name@Domain (High Trust for Netflix/PayPal)
+        let d = targetDomain === 'random' ? getRandom(["gmail.com","web.de","gmx.de"]) : targetDomain;
+        
+        let finalString = `${f}.${l.substring(0,3)}@${d}:${getRandom(lastNamePassLogic(f,l), true)}`;
+        
+        if (Math.random() > 0.8) {
+            // Pattern 2: UserPart#Year (Common for PayPal/Amazon)
+            finalString = `${f}${l}@${d}:${getRandom(lastNamePassLogic(f,l), false)}`; 
+        }
+
+        resultsSet.add(finalString); 
+    }
+
+    DOM.dataDump.value = Array.from(resultsSet).join('\n');
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function lastNamePassLogic(first, last, useDomainStyle=false) {
+    const base = last.toUpperCase(); // Surname is often the key in Netflix leaks
+    
+    if(useDomainStyle && Math.random() > 0.5) {
+         // Add domain specific suffix like "1982" or symbol
+         const types = [Math.floor(1975+Math.random()*35), ['!','@','#','$'][Math.floor(Math.random()*4)], (1976 + String.fromCharCode(65+Math.random()*25))]; 
+         return getRandom(types); 
+    } else {
+        return `${base}${Math.floor(Math.random()*25)}${['a','e','i'][Math.floor(Math.random()*3)]}`;
+    }
+}
+
+DOM.btnGen.onclick = async () => {
+    DOM.btnGen.innerText="EXTRACTING...";
+    await runSequence(parseInt(DOM.amount.value), DOM.domainSelect.value);
+};
+
+</script>
+</body>
+</html>
