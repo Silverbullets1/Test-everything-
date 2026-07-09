@@ -2,115 +2,454 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SILVERBULLET | Germany Combo Engine Pro v2.1.5 [NETFLIX OPTIMIZED]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silverbullet Premium - Elite Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <style>
-        :root { --bg: #0c0c0c; --magenta: #d94fd9; --cyan: #36b3d4; --yellow: #d6d63c; --green: #42d142; --red: #ff3333; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Consolas', monospace;}
-        body { background-color: var(--bg); color: var(--white); min-height: 100vh; padding: 25px; overflow-x:hidden;}
+        :root {
+            --bg-color: #020617;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --primary: #0ea5e9;
+            --primary-hover: #0284c7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-color); 
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.1), transparent 25%);
+            background-size: 100% 100%;
+            color: var(--text-main);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; 
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-sizing: border-box;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        h2 { 
+            text-align: center; 
+            color: #38bdf8; 
+            letter-spacing: 4px; 
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .form-group { margin-bottom: 22px; }
         
-        /* UI Styles */
-        .container { max-width: 980px; margin-bottom: 25px; background:#fff url('data:image/svg+xml;base64,...') center top repeat-y no-repeat;} 
-        .prompt-line { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:16px;}
-        input, select { background:#0a0a0a; border:1px solid #333; color:#d6d63c; padding:4px 8px; outline:none;}
-        button { background:none; border:1px solid var(--cyan); color:var(--cyan); cursor:pointer; transition:.2s;}
+        label { 
+            display: block; 
+            font-weight: 500; 
+            margin-bottom: 8px; 
+            color: var(--text-muted); 
+            font-size: 12px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], input[type="number"] { 
+            width: 100%; 
+            padding: 15px; 
+            box-sizing: border-box; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.2);
+            color: white;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background-color: rgba(0,0,0,0.4);
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.25); 
+        }
         
-        /* Console */
-        #console-output { white-space: pre-wrap; display:none; padding:25px 25px 25px 0; height:auto; overflow-y:hidden;}
-        .log-bracket{color:var(--yellow);} 
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-wrapper:hover {
+            background: rgba(0,0,0,0.3);
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #f59e0b; 
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            margin-bottom: 0;
+            cursor: pointer;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 18px; 
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white; 
+            border: none; 
+            font-size: 15px; 
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer; 
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 20px -10px rgba(14, 165, 233, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        button:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 25px -10px rgba(14, 165, 233, 0.8);
+        }
+        button:active { transform: translateY(0); }
+        button.success { background: linear-gradient(135deg, #10b981, #059669); }
     </style>
 </head>
 <body>
 
-<div class="container" style="padding-bottom:20px;">
-    <h1 style="font-family:'Impact'; margin-bottom:5px; text-shadow:2px 2px 4px rgba(0,0,0,.8);">SILVERBULLET v2.1.5 [NETFLIX OPTIMIZED]</h1>
-    
-    <!-- Input UI -->
-    <div id="ui-layer" style="background:rgba(255,255,255,0.03); padding:25px; border-radius:6px; box-shadow:inset 0 0 15px #000;">
-        <div class="prompt-line"><span>root@silverbullet:v2.1.5#</span><input type="number" id="amount" value="2000"> [Target Volume]</div>
-        
-        <div class="prompt-line"><select id="domain-select"><option value="random">Random Mix (Global)</option><option value="gmail.com">Gmail.com</option><option value="web.de">Web.de (DE)</option><option value="gmx.de">GMX.de (DE)</option></select></div>
+    <!-- Hidden Logo for Watermark processing -->
+    <img id="storeLogo" src="logo.jpg" style="display: none;" crossorigin="anonymous">
 
-        <div class="prompt-line"><label style="color:var(--cyan)">Format:</label>&nbsp;<select id="format"><option value="email:pass">Email : Pass</option><option value="user:pass">User : Pass</option></select></div>
-        
-        <!-- Buttons -->
-        <button id="generate-btn" style="margin-top:15px; padding:8px 20px;">./initiate_extraction.sh</button>
+    <div class="container">
+        <h2>SILVERBULLET</h2>
+
+        <form id="receiptForm">
+            <div class="form-group">
+                <label for="buyerName">Billed To (Name / Handle)</label>
+                <input type="text" id="buyerName" placeholder="e.g. FalconAccount_store" required>
+            </div>
+
+            <div class="form-group">
+                <label for="itemName">Item Description</label>
+                <input type="text" id="itemName" placeholder="e.g. x10 Premium Accounts" required>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="amount">Total USD ($)</label>
+                    <input type="number" id="amount" placeholder="e.g. 100.00" step="0.01" min="0" required onblur="this.value = parseFloat(this.value || 0).toFixed(2)">
+                </div>
+                <div class="form-group">
+                    <label for="cryptoType">Crypto Network</label>
+                    <input type="text" id="cryptoType" placeholder="e.g. USDT (BEP20)" required>
+                </div>
+            </div>
+
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="isReplacement">
+                <label for="isReplacement">Issue as Replacement Order</label>
+            </label>
+
+            <button type="submit" id="generateBtn">Generate Elite Receipt</button>
+        </form>
     </div>
 
-    <!-- Terminal Output -->
-    <div id="console-output"></div>
+    <script>
+        document.getElementById('receiptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generatePDF();
+        });
 
-    <!-- Result Data -->
-    <textarea id="data-dump" readonly style="width:98%; height:400px; background:#080a0c; color:#42d142; font-family:'Consolas'; padding:15px;"></textarea>
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-<script>
-// Enhanced Datasets (Realistic patterns for Netflix/PayPal)
-const firsts = ["lukas","leon","finn","paul","jonas","ben","maximilian","anna","mia","emma","hannah","sophia","lena","lea", "felix","tim","julian","niklas","max","moritz","david","elias","louis", "marie","laura","sarah" ,"lara" ,"neele" ,"lisa" , "charlotte" , "clara", 
-                "johanna" , "alexander" ,"michael" ,"christian" ,"stefan" ,"thomas" ,"jan",
-                "kevin", "patrick", "martin", "peter", "frank", "jens", "dirk",
-                "uwe", "dieter", "werner", "klaus", "gunter",
-                "heinz", "manfred", "helmut",
-                "ursula" ,"karin","sabine","monika","petra","renate","susanne"];
+            const buyerName = document.getElementById('buyerName').value.trim();
+            const itemName = document.getElementById('itemName').value.trim();
+            const rawAmount = document.getElementById('amount').value;
+            const cryptoType = document.getElementById('cryptoType').value.trim().toUpperCase();
+            
+            const isReplacement = document.getElementById('isReplacement').checked;
 
-const lasts = ["muller","schmidt","schneider","fischer","weber","meyer","wagner" ,"becker" , 
-               "schulz" ,"hoffmann" ,"koch" ,"bauer" ,"richter" ,"klein" ,"wolf" , 
-               "schroder" ,"neumann" ,"schwarz" ,"zimmermann" ,"braun" ,
-               "kruger", "huber", "peters", "lang", "scholz", "moller",
-               "weiss", "jung"]
+            let cleanAmount = parseFloat(rawAmount).toFixed(2);
+            if (isNaN(cleanAmount)) cleanAmount = "0.00";
 
-const DOM = { amount: document.getElementById('amount'), domainSelect: document.getElementById('domain-select'), format: document.getElementById('format'), btnGen: document.getElementById('generate-btn'), console: document.getElementById('console-output'), dataDump: document.getElementById('data-dump') };
+            const randomNum = Math.floor(100000 + Math.random() * 900000);
+            const orderNumber = "ORD-" + randomNum;
+            
+            const dynamicHash = "0x" + Array.from({length: 16}, () => Math.floor(Math.random()*16).toString(16)).join('').toUpperCase();
 
-function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+            const today = new Date();
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            const dateString = today.toLocaleDateString('en-US', options); 
 
-// Enhanced Generation Logic for Netflix/PayPal
-async function runSequence(amount, targetDomain) {
-    DOM.console.style.display="block"; 
-    let resultsSet = new Set();
-    
-    // Animation Loop (Simulate fetching blocks)
-    for(let i=0; i<5; i++) {
-        await sleep(300);
-        let ipPart = Math.floor(Math.random()*256).toString().padStart(3,'0');
-        DOM.console.innerHTML += `<span style="color:#888">[*] Fetching block 0x${Math.floor(Math.random()*100)+i}...</span><br>`;
-    }
+            // --- 0. BACKGROUND LOGO WATERMARK & SECURITY TEXT ---
+            doc.setGState(new doc.GState({opacity: 0.06})); // 6% opacity for a perfect, faint image watermark
+            
+            // Draw Official Logo Watermark
+            try {
+                const logoImg = document.getElementById('storeLogo');
+                if (logoImg.complete && logoImg.naturalWidth > 0) {
+                    // Massive centered logo watermark (120x120 mm)
+                    doc.addImage(logoImg, 'JPEG', 45, 88.5, 120, 120); 
+                }
+            } catch (error) {
+                console.log("Logo load failed for watermark.");
+                // Fallback to text if image is missing
+                doc.setFontSize(65);
+                doc.setTextColor(15, 23, 42); 
+                doc.text("SILVERBULLET", 105, 145, { angle: 45, align: "center" });
+            }
 
-    while(resultsSet.size < amount) {
-        const f = getRandom(firsts); 
-        const l = getRandom(lasts); 
-        
-        // Pattern 1: Name@Domain (High Trust for Netflix/PayPal)
-        let d = targetDomain === 'random' ? getRandom(["gmail.com","web.de","gmx.de"]) : targetDomain;
-        
-        let finalString = `${f}.${l.substring(0,3)}@${d}:${getRandom(lastNamePassLogic(f,l), true)}`;
-        
-        if (Math.random() > 0.8) {
-            // Pattern 2: UserPart#Year (Common for PayPal/Amazon)
-            finalString = `${f}${l}@${d}:${getRandom(lastNamePassLogic(f,l), false)}`; 
+            // Draw Security Text layered OVER the image watermark
+            doc.setTextColor(15, 23, 42); 
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "normal");
+            
+            doc.text("SUPPORT: @Silverbullets_bot", 65, 85, { angle: 45, align: "center" });
+            
+            let subWatermark = isReplacement ? "REPLACEMENT ISSUED" : "VERIFIED SECURE TRANSACTION";
+            doc.text(subWatermark, 145, 205, { angle: 45, align: "center" });
+
+            // Restore full opacity for the rest of the document data
+            doc.setGState(new doc.GState({opacity: 1.0}));
+
+            // --- 1. PREMIUM HEADER ---
+            doc.setFillColor(15, 23, 42); 
+            doc.rect(0, 0, 210, 50, 'F');
+            
+            doc.setDrawColor(14, 165, 233); 
+            doc.setLineWidth(1.5);
+            doc.line(0, 50, 210, 50);
+
+            doc.setTextColor(255, 255, 255); 
+            doc.setFontSize(28);
+            doc.setFont("helvetica", "bold");
+            doc.text("SILVERBULLET", 15, 32);
+            
+            if (isReplacement) {
+                doc.setFillColor(245, 158, 11); 
+                doc.roundedRect(145, 22, 50, 12, 1.5, 1.5, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(10);
+                doc.text("REPLACEMENT", 170, 30, null, null, "center");
+            } else {
+                doc.setFillColor(16, 185, 129); 
+                doc.roundedRect(160, 22, 35, 12, 1.5, 1.5, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(11);
+                doc.text("PAID", 177.5, 30, null, null, "center");
+            }
+
+            // --- 2. INVOICE METADATA ---
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.5);
+            doc.line(15, 65, 15, 85); 
+
+            doc.setTextColor(140, 140, 140); 
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "bold");
+            doc.text("BILLED TO:", 20, 70);
+            
+            doc.setTextColor(30, 30, 30); 
+            doc.setFontSize(13);
+            doc.text(buyerName, 20, 78);
+
+            doc.setTextColor(140, 140, 140); 
+            doc.setFontSize(9);
+            doc.text("RECEIPT NO:", 120, 70);
+            doc.text("DATE:", 120, 78);
+
+            doc.setTextColor(30, 30, 30); 
+            doc.setFontSize(10);
+            doc.text(orderNumber, 150, 70);
+            doc.text(dateString, 150, 78);
+
+            doc.setLineDash([1, 1.5], 0);
+            doc.line(15, 93, 195, 93);
+            doc.setLineDash([]); 
+
+            // --- 3. HIGH-CONTRAST ITEMS TABLE ---
+            const startY = 102;
+            
+            doc.setFillColor(15, 23, 42); 
+            doc.rect(15, startY, 180, 11, 'F'); 
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.text("ITEM DESCRIPTION", 20, startY + 7.5);
+            doc.text("AMOUNT", 185, startY + 7.5, null, null, "right");
+
+            const splitItemText = doc.splitTextToSize(itemName, 130); 
+            let itemsHeight = (splitItemText.length * 6) + 12;
+            if(itemsHeight > 55) itemsHeight = 55; 
+
+            doc.setDrawColor(200, 200, 200); 
+            doc.rect(15, startY + 11, 180, itemsHeight, 'S'); 
+            
+            doc.setTextColor(40, 40, 40);
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "normal");
+            
+            doc.text(splitItemText.slice(0, 7), 20, startY + 20);
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("$" + cleanAmount, 185, startY + 20, null, null, "right");
+
+            // --- 4. PAYMENT METHOD & AUTHENTIC QR PATTERN ---
+            let totalY = startY + 11 + itemsHeight + 14;
+
+            let qrX = 15;
+            let qrY = totalY;
+            let qrSize = 25;
+            let qrGrid = 22; 
+            let boxSize = qrSize / qrGrid;
+            
+            doc.setFillColor(35, 35, 35);
+            for(let i=0; i<qrGrid; i++) {
+                for(let j=0; j<qrGrid; j++) {
+                    if ((i === 6 || j === 6) && (i % 2 === 0 || j % 2 === 0)) {
+                        doc.rect(qrX + (i*boxSize), qrY + (j*boxSize), boxSize, boxSize, 'F');
+                    } else if (Math.random() > 0.45) {
+                        doc.rect(qrX + (i*boxSize), qrY + (j*boxSize), boxSize, boxSize, 'F');
+                    }
+                }
+            }
+            
+            let anchorSize = 6;
+            doc.setFillColor(255,255,255); doc.rect(qrX, qrY, boxSize*anchorSize, boxSize*anchorSize, 'F');
+            doc.setFillColor(35,35,35); doc.rect(qrX, qrY, boxSize*anchorSize, boxSize*anchorSize, 'S'); doc.rect(qrX+boxSize, qrY+boxSize, boxSize*(anchorSize-2), boxSize*(anchorSize-2), 'F');
+            
+            doc.setFillColor(255,255,255); doc.rect(qrX+qrSize-boxSize*anchorSize, qrY, boxSize*anchorSize, boxSize*anchorSize, 'F');
+            doc.setFillColor(35,35,35); doc.rect(qrX+qrSize-boxSize*anchorSize, qrY, boxSize*anchorSize, boxSize*anchorSize, 'S'); doc.rect(qrX+qrSize-boxSize*(anchorSize-1), qrY+boxSize, boxSize*(anchorSize-2), boxSize*(anchorSize-2), 'F');
+            
+            doc.setFillColor(255,255,255); doc.rect(qrX, qrY+qrSize-boxSize*anchorSize, boxSize*anchorSize, boxSize*anchorSize, 'F');
+            doc.setFillColor(35,35,35); doc.rect(qrX, qrY+qrSize-boxSize*anchorSize, boxSize*anchorSize, boxSize*anchorSize, 'S'); doc.rect(qrX+boxSize, qrY+qrSize-boxSize*(anchorSize-1), boxSize*(anchorSize-2), boxSize*(anchorSize-2), 'F');
+
+            doc.setTextColor(140, 140, 140);
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "normal");
+            doc.text("AUTH SYSTEM ID", 48, totalY + 5);
+            
+            doc.setTextColor(60, 60, 60);
+            doc.setFontSize(8.5);
+            doc.text(dynamicHash, 48, 11 + totalY);
+
+            doc.setTextColor(140, 140, 140);
+            doc.setFontSize(7.5);
+            doc.text("NETWORK ROUTE", 48, totalY + 18);
+            
+            doc.setTextColor(14, 165, 233);
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.text(cryptoType, 48, totalY + 24);
+
+            // --- 5. TOTAL BLOCK ---
+            doc.setFillColor(15, 23, 42); 
+            doc.roundedRect(120, totalY, 75, 26, 1.5, 1.5, 'F');
+            
+            doc.setTextColor(210, 210, 210);
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "normal");
+            
+            let totalText = isReplacement ? "REPLACEMENT VALUE" : "TOTAL PAID";
+            doc.text(totalText, 126, totalY + 9);
+            
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(255, 255, 255);
+            doc.text("$" + cleanAmount, 189, totalY + 19, null, null, "right");
+
+            // --- 6. TERMS, FOOTER & SECURITY BARCODE ---
+            const footerY = 265; 
+
+            doc.setTextColor(130, 130, 130);
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "normal");
+            
+            let termsText = isReplacement ? 
+                "TERMS: This document serves as proof of a replacement for a previously verified digital order." : 
+                "TERMS: All digital sales are final. No refunds on delivered digital goods.";
+            doc.text(termsText, 15, footerY - 18);
+
+            doc.setFillColor(60, 60, 60);
+            let barcodeX = 15;
+            for(let i=0; i < 34; i++) {
+                let rectWidth = Math.random() * 1.4 + 0.3; 
+                doc.rect(barcodeX, footerY - 13, rectWidth, 9, 'F'); 
+                barcodeX += rectWidth + (Math.random() * 1.8 + 0.4); 
+            }
+
+            doc.setTextColor(140, 140, 140);
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "italic");
+            doc.text("Official Digital Receipt generated automatically.", 105, footerY + 2, null, null, "center");
+            
+            doc.setTextColor(14, 165, 233); 
+            doc.setFont("helvetica", "bold");
+            
+            let tgText = "Telegram Support: @Silverbullets_bot";
+            let tgWidth = doc.getTextWidth(tgText);
+            let tgX = 105 - (tgWidth / 2);
+            
+            doc.textWithLink(tgText, tgX, footerY + 8, { url: 'https://t.me/Silverbullets_bot' });
+            
+            doc.setDrawColor(14, 165, 233);
+            doc.setLineWidth(0.2);
+            doc.line(tgX, footerY + 9, tgX + tgWidth, footerY + 9);
+
+            const fileNamePrefix = isReplacement ? "Silverbullet_Replacement_" : "Silverbullet_Receipt_";
+            doc.save(fileNamePrefix + orderNumber + ".pdf");
+
+            const btn = document.getElementById('generateBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "PDF DOWNLOADED! ✓";
+            btn.classList.add("success");
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove("success");
+            }, 2500);
         }
-
-        resultsSet.add(finalString); 
-    }
-
-    DOM.dataDump.value = Array.from(resultsSet).join('\n');
-}
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-function lastNamePassLogic(first, last, useDomainStyle=false) {
-    const base = last.toUpperCase(); // Surname is often the key in Netflix leaks
-    
-    if(useDomainStyle && Math.random() > 0.5) {
-         // Add domain specific suffix like "1982" or symbol
-         const types = [Math.floor(1975+Math.random()*35), ['!','@','#','$'][Math.floor(Math.random()*4)], (1976 + String.fromCharCode(65+Math.random()*25))]; 
-         return getRandom(types); 
-    } else {
-        return `${base}${Math.floor(Math.random()*25)}${['a','e','i'][Math.floor(Math.random()*3)]}`;
-    }
-}
-
-DOM.btnGen.onclick = async () => {
-    DOM.btnGen.innerText="EXTRACTING...";
-    await runSequence(parseInt(DOM.amount.value), DOM.domainSelect.value);
-};
-
-</script>
+    </script>
 </body>
 </html>
